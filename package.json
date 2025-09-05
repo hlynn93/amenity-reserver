@@ -1,0 +1,23 @@
+{
+  "name": "tfc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "get-token": "node scripts/get-token.js",
+    "reserve-amenity": "node scripts/reserve-amenity.js",
+    "scheduler": "node scripts/scheduler.js",
+    "schedule-once": "node scripts/schedule-once.js",
+    "start": "npm run scheduler"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "follow-redirects": "^1.15.11",
+    "node-cron": "^4.2.1",
+    "puppeteer": "^24.19.0"
+  }
+}
