@@ -83,7 +83,6 @@ async function getToken() {
         timestamp: new Date().toISOString(),
       };
       networkRequests.push(requestInfo);
-      console.log(`📤 ${request.method()} ${request.url()}`);
 
       // Continue the request
       request.continue();
@@ -237,20 +236,7 @@ async function getToken() {
       path: "output/after-login.png",
       fullPage: true,
     });
-
-    // Log all network requests
-    console.log('\n=== NETWORK REQUESTS SUMMARY ===');
-    console.log(`Total requests captured: ${networkRequests.length}\n`);
-    
-    networkRequests.forEach((req, index) => {
-      console.log(`${index + 1}. ${req.method} ${req.url}`);
-      if (req.postData) {
-        console.log(`   POST Data: ${req.postData.substring(0, 200)}${req.postData.length > 200 ? '...' : ''}`);
-      }
-      console.log(`   Timestamp: ${req.timestamp}`);
-      console.log('');
-    });
-
+  
     // Save access token if found
     if (accessToken) {
       // Read current .env file

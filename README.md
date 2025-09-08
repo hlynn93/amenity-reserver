@@ -1,6 +1,6 @@
 # Tennis Court Reservation Automation
 
-This project automates tennis court reservations with multiple scheduling options.
+This project automates tennis court reservations at my condo building with multiple scheduling options.
 
 ## 🚀 Quick Start
 
@@ -44,17 +44,34 @@ This project automates tennis court reservations with multiple scheduling option
 - 🔑 Get token: 8:00 AM daily
 - 🎾 Reserve court: 9:00 AM every Monday
 
-### Option 2: System Cron (Linux/macOS)
+### Option 2: One-Time Scheduler
+Run the reservation script once at a specific time (e.g., to snipe a slot when bookings open):
+```bash
+# Schedule for a specific time today (24-hour format)
+npm run schedule-once "09:00"
+
+# Schedule for a specific date and time
+npm run schedule-once "2026-03-21 09:00"
+```
+
+The script will:
+1. Refresh the auth token 1 minute before the target time
+2. Make the reservation at the exact time specified
+3. Automatically exit when done (or on failure)
+
+Keep the terminal open while it waits. Press `Ctrl+C` to cancel.
+
+### Option 4: System Cron (Linux/macOS)
 Add to your crontab (`crontab -e`):
 ```bash
 # Reserve tennis court every Monday at 9:00 AM
-0 9 * * 1 cd /path/to/tfc && npm run get-token && npm run reserve-amenity
+0 9 * * 1 cd /path/to/amenity-reserver && npm run get-token && npm run reserve-amenity
 
 # Refresh token every 6 hours
-0 */6 * * * cd /path/to/tfc && npm run get-token
+0 */6 * * * cd /path/to/amenity-reserver && npm run get-token
 ```
 
-### Option 3: Windows Task Scheduler
+### Option 5: Windows Task Scheduler
 1. Open Task Scheduler
 2. Create Basic Task
 3. Set trigger (e.g., Weekly, Monday, 9:00 AM)
@@ -62,7 +79,7 @@ Add to your crontab (`crontab -e`):
 5. Program: `cmd`
 6. Arguments: `/c cd /path/to/tfc && npm run get-token && npm run reserve-amenity`
 
-### Option 4: PM2 Process Manager
+### Option 6: PM2 Process Manager
 ```bash
 # Install PM2 globally
 npm install -g pm2
@@ -119,7 +136,8 @@ ENABLE_AUTO_RESERVE="true"               # Enable/disable auto reservations
 
 - `npm run get-token` - Extract authentication token
 - `npm run reserve-amenity` - Make a court reservation
-- `npm run scheduler` - Start the scheduler
+- `npm run schedule-once "HH:MM"` - Schedule a one-time reservation at a specific time
+- `npm run scheduler` - Start the recurring scheduler
 - `npm start` - Start the scheduler (alias)
 
 ## 📋 Logs

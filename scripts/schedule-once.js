@@ -10,10 +10,10 @@ require('dotenv').config();
 // Get command line arguments
 const args = process.argv.slice(2);
 if (args.length === 0) {
-  console.log('❌ Error: Please provide a date and time');
-  console.log('📋 Usage: npm run schedule-once "2025-09-11 09:00"');
-  console.log('📋 Usage: npm run schedule-once "2025-09-11 14:30"');
-  console.log('📋 Format: YYYY-MM-DD HH:MM (24-hour format)');
+  console.log('❌ Error: Please provide a date and time or just a time for today.');
+  console.log('📋 Usage (full date): npm run schedule-once "2025-09-11 09:00"');
+  console.log('📋 Usage (today):     npm run schedule-once "14:30"');
+  console.log('📋 Format: YYYY-MM-DD HH:MM or HH:MM (24-hour format)');
   process.exit(1);
 }
 
@@ -32,6 +32,13 @@ function parseDateTime(dateTimeStr) {
     } else if (dateTimeStr.includes(' ')) {
       // Space format: "2025-09-11 09:00"
       targetDate = new Date(dateTimeStr.replace(' ', 'T'));
+    } else if (dateTimeStr.match(/^\d{1,2}:\d{2}$/)) { // Time only format: "09:00" or "9:00"
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      const datePart = `${year}-${month}-${day}`;
+      targetDate = new Date(`${datePart}T${dateTimeStr}`);
     } else {
       throw new Error('Invalid format');
     }
@@ -43,7 +50,7 @@ function parseDateTime(dateTimeStr) {
     return targetDate;
   } catch (error) {
     console.error('❌ Error parsing date/time:', error.message);
-    console.log('📋 Please use format: "2025-09-11 09:00" or "2025-09-11T09:00"');
+    console.log('📋 Please use format: "YYYY-MM-DD HH:MM" or "HH:MM" for today.');
     process.exit(1);
   }
 }
